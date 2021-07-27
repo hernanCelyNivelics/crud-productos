@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import com.producto.demoProductos.producto.model.Producto;
-import com.producto.demoProductos.producto..ClienteRepository;
+import com.producto.demoProductos.producto.repo.ProductoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Service;
 
 public class ProductoService {
 
