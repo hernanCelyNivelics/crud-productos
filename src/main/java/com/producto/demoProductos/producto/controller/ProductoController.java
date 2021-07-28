@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/producto")
+@RequestMapping("/api/v1/productos")
 public class ProductoController {
 
     @Autowired
@@ -16,20 +16,21 @@ public class ProductoController {
 
     @PostMapping
     public Producto add(@RequestBody Producto producto)
-    { return productoService.add(producto);}
+    {
+        return productoService.add(producto);}
 
     @GetMapping
     public List<Producto> getAll(){
         return productoService.getAll();
     }
 
-    @PutMapping("/{pro_id}")
-    public Producto update(@PathVariable int pro_id, @RequestBody Producto producto){
-        return productoService.update(pro_id, producto);
+    @PutMapping("/{id}")
+    public Producto update(@PathVariable int id, @RequestBody Producto producto){
+        return productoService.update(id, producto);
     }
 
-    @DeleteMapping("/{pro_id}")
-    public void delete(@PathVariable int pro_id){
-        productoService.delete(pro_id);
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id){
+        productoService.delete(id);
     }
 }
