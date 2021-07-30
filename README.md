@@ -40,7 +40,7 @@ _Que cosas necesitas para desplegar el proyecto_
 
 <div>
 <p style = 'text-align:center;'>
-<img src="https://ibb.co/dP4LtSJl" alt="POSTMAN" width="600px">
+<img src="https://i.ibb.co/VgYQxdp/postman.png" alt="POSTMAN" width="600px">
 </p>
 </div>
 
