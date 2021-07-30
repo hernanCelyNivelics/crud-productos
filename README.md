@@ -13,11 +13,34 @@ Estas instrucciones te permitirán obtener una copia del proyecto en funcionamie
 _Que cosas necesitas para desplegar el proyecto_
 
 ```
--Crear base de datos llamada producto 
+-Crear base de datos llamada producto en MySQL 
 -Realizar configuracion de username y password en application.yaml para utilizar la base de datos creada
 -MySQL y Apache iniciados.
+-Instalar POSTMAN
 ```
+### Pasos para desplegar el proyecto
 
+* Clonar el proyecto https://github.com/hernanCelyNivelics/crud-productos.git
+* Abrir el proyecto con [IntelliJ](https://www.jetbrains.com/es-es/idea/) y esperar que lo indexe
+* Modificamos el archivo application.yaml con los datos de acceso a MySQL
+* Hecho esto, procedemos a darle run al proyecto. Se ejecutara spring y correra el servidor.
+* Abrimos POStMAN y añadimos una nueva coleccion.
+* Creamos las cuatro peticiones Agregar[Post],Editar[POST],Mostrar[GET],Eliminar[POST]
+* Introducimos la direccion del proyecto http://localhost:8080/api/v1/productos
+* Vamos a la pestaña body y seleccionamos el formato JSON
+* Creamos nuestro formato con los datos que queremos ingresar.
+
+```
+{
+    "nombre": "Arroz",
+    "precio": "31330"
+}
+```
+* le damos en el boton send, si todo esta bien nos arrojara un status 200 y abajo se mostrara los datos que fueron enviados.
+
+<![Imagen POSTMAN ](https://ibb.co/dP4LtSJ){width=400}
+
+* Se hace el mismo procesos para el mostrar, editar,eliminar
 
 ## Ejecutando las pruebas ⚙️
 
@@ -27,6 +50,7 @@ Para *Agregar-Actualizar-Eliminar-Listar* los registros.
 
 ## Construido con ️ ⚙️
 
+* [POSTMAN](https://www.postman.com/)-Para probar solicitudes POST-GET
 * [IntelliJ](https://www.jetbrains.com/es-es/idea/) - El IDE usado
 * [Spring](https://spring.io/) - El framework usado
 
