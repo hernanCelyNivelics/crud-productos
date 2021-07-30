@@ -38,7 +38,11 @@ _Que cosas necesitas para desplegar el proyecto_
 ```
 * le damos en el boton send, si todo esta bien nos arrojara un status 200 y abajo se mostrara los datos que fueron enviados.
 
-<![Imagen POSTMAN ](https://ibb.co/dP4LtSJ){width=400}
+<div>
+<p style = 'text-align:center;'>
+<img src="https://ibb.co/dP4LtSJl" alt="POSTMAN" width="600px">
+</p>
+</div>
 
 * Se hace el mismo procesos para el mostrar, editar,eliminar
 
