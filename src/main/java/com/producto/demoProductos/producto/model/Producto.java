@@ -18,3 +18,5 @@ public class Producto {
     @Column(name = "pro_precio", unique = true)
     private float precio;
 }
+
+
