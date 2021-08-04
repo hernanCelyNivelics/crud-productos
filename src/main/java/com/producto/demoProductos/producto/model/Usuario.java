@@ -11,11 +11,11 @@ import javax.persistence.*;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "us_id", unique = true)
+    @Column(name = "id", unique = true)
     private int id;
-    @Column(name = "us_email", unique = true)
-    private String email;
-    @Column(name = "us_contraseña", unique = true)
-    private String contraseña;
+    @Column(name = "username", unique = true)
+    private String username;
+    @Column(name = "password", unique = true)
+    private String password;
 
 }

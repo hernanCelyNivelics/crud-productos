@@ -11,11 +11,11 @@ public class Producto {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pro_id", unique = true)
+    @Column(name = "id", unique = true)
     private int id;
-    @Column(name = "pro_nombre", unique = true)
+    @Column(name = "nombre", unique = true)
     private String nombre;
-    @Column(name = "pro_precio", unique = true)
+    @Column(name = "precio", unique = true)
     private float precio;
 }
 
