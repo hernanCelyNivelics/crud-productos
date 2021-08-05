@@ -3,7 +3,7 @@ spring:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/producto
     username: root
-    password: Ct2010**
+    password:
   jpa:
     hibernate:
       ddl-auto: create

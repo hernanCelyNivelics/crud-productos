@@ -27,22 +27,20 @@ public class AuthController {
     private JWTUtil jwtUtil;
 
     @PostMapping("/authenticate")
-    public AuthenticationResponse createToken(@RequestBody AuthenticationRequest request) throws Exception {
+    public ResponseEntity<AuthenticationResponse> createToken(@RequestBody AuthenticationRequest request) throws Exception {
 
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
                             request.getUsername(),
                             request.getPassword()));
+            UserDetails userDetails = usuarioDetailsService.loadUserByUsername(request.getUsername());
+            String jwt= jwtUtil.GenerateToken(userDetails);
 
+            return new ResponseEntity<>(new AuthenticationResponse(jwt), HttpStatus.OK);
 
         }catch (BadCredentialsException e){
-            throw new Exception("credenciales invalidas",e);
+            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
-        UserDetails userDetails = usuarioDetailsService.loadUserByUsername(request.getUsername());
-        String jwt= jwtUtil.GenerateToken(userDetails);
-        return new AuthenticationResponse(jwt);
     }
-
-
 }
