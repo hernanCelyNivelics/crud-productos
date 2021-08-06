@@ -24,6 +24,10 @@ public class ProductoService {
         return productoRepository.findAll();
     }
 
+    public List<Producto> getProducto(int id){
+        return productoRepository.findById(id);
+    }
+
     public Producto update(int id, Producto producto){
         return productoRepository.save(producto);
     }
