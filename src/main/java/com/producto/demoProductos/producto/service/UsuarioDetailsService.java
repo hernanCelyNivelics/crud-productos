@@ -14,8 +14,6 @@ import java.util.ArrayList;
 @Service
 public class UsuarioDetailsService implements UserDetailsService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {

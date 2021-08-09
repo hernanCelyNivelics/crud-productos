@@ -1,5 +1,6 @@
 package com.producto.demoProductos.producto.controller;
 
+import com.producto.demoProductos.producto.dto.UsuarioDto;
 import com.producto.demoProductos.producto.model.Usuario;
 import com.producto.demoProductos.producto.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,10 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
-    @PostMapping
-    public Usuario add(@RequestBody Usuario usuario)
+    @PostMapping("/add")
+    public Usuario add(@RequestBody UsuarioDto usuariodto)
     {
-        return usuarioService.add(usuario);}
+        return usuarioService.add(usuariodto);}
 
     @GetMapping
     public List<Usuario> getAll(){
@@ -27,7 +28,7 @@ public class UsuarioController {
 
 
     @PutMapping("/{id}")
-    public Usuario update(@PathVariable int id, @RequestBody Usuario usuario){
+    public Usuario update(@PathVariable int id, @RequestBody UsuarioDto usuario){
         return usuarioService.update(id, usuario);
     }
 

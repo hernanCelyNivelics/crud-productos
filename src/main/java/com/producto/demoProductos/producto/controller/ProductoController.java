@@ -1,5 +1,6 @@
 package com.producto.demoProductos.producto.controller;
 
+import com.producto.demoProductos.producto.dto.ProductoDto;
 import com.producto.demoProductos.producto.model.Producto;
 import com.producto.demoProductos.producto.model.Usuario;
 import com.producto.demoProductos.producto.service.ProductoService;
@@ -17,10 +18,10 @@ public class ProductoController {
     @Autowired
     private ProductoService productoService;
 
-    @PostMapping
-    public Producto add(@RequestBody Producto producto)
+    @PostMapping("/add")
+    public Producto add(@RequestBody ProductoDto productodto)
     {
-        return productoService.add(producto);}
+        return productoService.add(productodto);}
 
     @GetMapping
     public List<Producto> getAll(){
@@ -33,8 +34,8 @@ public class ProductoController {
     }
 
     @PutMapping("/{id}")
-    public Producto update(@PathVariable int id, @RequestBody Producto producto){
-        return productoService.update(id, producto);
+    public Producto update(@PathVariable int id, @RequestBody ProductoDto productodto){
+        return productoService.update(id, productodto);
     }
 
     @DeleteMapping("/{id}")
