@@ -35,13 +35,10 @@ public class SecutiryConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder(){
-        return NoOpPasswordEncoder.getInstance();
-    }
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests().antMatchers("/api/v1/auth/authenticate").permitAll()
+                .antMatchers("/api/v1/productos/*").permitAll()
                 .anyRequest().authenticated().and().sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
@@ -53,14 +50,6 @@ public class SecutiryConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs/**");
-        web.ignoring().antMatchers("/swagger.json");
-        web.ignoring().antMatchers("/swagger-ui.html");
-        web.ignoring().antMatchers("/swagger-resources/**");
-        web.ignoring().antMatchers("/webjars/**");
-    }
     @Bean
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder(12);

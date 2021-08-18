@@ -2,9 +2,12 @@ package com.producto.demoProductos.producto.service;
 
 
 import com.producto.demoProductos.producto.dto.UsuarioDto;
+import com.producto.demoProductos.producto.errors.ErrorHandlerController;
+import com.producto.demoProductos.producto.errors.NegocioException;
 import com.producto.demoProductos.producto.model.Usuario;
 import com.producto.demoProductos.producto.repo.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +21,16 @@ public class UsuarioService {
 
     Usuario user = new Usuario();
 
-    public Usuario add(UsuarioDto usuario){
+    public Usuario add(UsuarioDto usuario) throws NegocioException {
         user.setUsername(usuario.getUsername());
         user.setPassword(bCrypt(usuario.getPassword()));
-        return usuarioRepository.save(user);
+        if (usuarioRepository.findByUsername(usuario.getUsername())!=null){
+
+            throw NegocioException.builder().build();
+        }else {
+
+            return usuarioRepository.save(user);
+        }
     }
 
     public List<Usuario> getAll(){

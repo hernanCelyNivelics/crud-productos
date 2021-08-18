@@ -1,6 +1,7 @@
 package com.producto.demoProductos.producto.controller;
 
 import com.producto.demoProductos.producto.dto.UsuarioDto;
+import com.producto.demoProductos.producto.errors.NegocioException;
 import com.producto.demoProductos.producto.model.Usuario;
 import com.producto.demoProductos.producto.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,10 @@ public class UsuarioController {
 
     @Autowired
     private UsuarioService usuarioService;
-
+    private Usuario usuario;
     @PostMapping("/add")
-    public Usuario add(@RequestBody UsuarioDto usuariodto)
+    @ResponseBody
+    public Usuario add(@RequestBody UsuarioDto usuariodto) throws NegocioException
     {
         return usuarioService.add(usuariodto);}
 
@@ -26,7 +28,7 @@ public class UsuarioController {
         return usuarioService.getAll();
     }
 
-
+    @CrossOrigin()
     @PutMapping("/{id}")
     public Usuario update(@PathVariable int id, @RequestBody UsuarioDto usuario){
         return usuarioService.update(id, usuario);

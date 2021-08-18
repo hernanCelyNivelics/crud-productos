@@ -23,22 +23,22 @@ public class ProductoController {
     {
         return productoService.add(productodto);}
 
-    @GetMapping
+    @GetMapping("/listado")
     public List<Producto> getAll(){
         return productoService.getAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/get/{id}")
     public List<Producto> getProducto(@PathVariable("id") int id){
         return productoService.getProducto(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public Producto update(@PathVariable int id, @RequestBody ProductoDto productodto){
         return productoService.update(id, productodto);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public void delete(@PathVariable int id){
         productoService.delete(id);
     }
