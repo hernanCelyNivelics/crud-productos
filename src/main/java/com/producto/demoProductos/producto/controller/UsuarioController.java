@@ -28,7 +28,6 @@ public class UsuarioController {
         return usuarioService.getAll();
     }
 
-    @CrossOrigin()
     @PutMapping("/{id}")
     public Usuario update(@PathVariable int id, @RequestBody UsuarioDto usuario){
         return usuarioService.update(id, usuario);
