@@ -18,6 +18,7 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
     private Usuario usuario;
+
     @PostMapping("/add")
     @ResponseBody
     public Usuario add(@RequestBody UsuarioDto usuariodto) throws NegocioException, BadRequest, NotFound

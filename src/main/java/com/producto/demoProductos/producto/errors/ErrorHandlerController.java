@@ -20,6 +20,7 @@ public class ErrorHandlerController {
 		respuesta.put(MENSAJE_SALIDA_MAP, "El usuario ya existe");
 		return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
 	}
+
 	@ExceptionHandler(value = {BadRequest.class})
 	protected ResponseEntity<Map<String, Object>> badRequestException(BadRequest ex, Model model) {
 		Map<String, Object> respuesta = new HashMap<>();
@@ -30,5 +31,4 @@ public class ErrorHandlerController {
 	public ResponseEntity<?> notfound(Exception e){
 		return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 	}
-
 }
