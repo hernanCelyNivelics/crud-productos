@@ -3,7 +3,6 @@ package com.producto.demoProductos.producto.service;
 
 import com.producto.demoProductos.producto.dto.ProductoDto;
 import com.producto.demoProductos.producto.errors.BadRequest;
-import com.producto.demoProductos.producto.errors.NegocioException;
 import com.producto.demoProductos.producto.errors.NotFound;
 import com.producto.demoProductos.producto.model.Producto;
 import com.producto.demoProductos.producto.repo.ProductoRepository;
@@ -18,9 +17,9 @@ public class ProductoService {
 
     @Autowired
     private ProductoRepository productoRepository;
-    Producto product = new Producto();
-    public Producto add(ProductoDto producto) throws NegocioException, BadRequest, NotFound {
 
+    public Producto add(ProductoDto producto) throws BadRequest {
+        Producto product = new Producto();
         product.setNombre(producto.getNombre());
         product.setPrecio(Float.parseFloat(producto.getPrecio()));
         if (productoRepository.findByNombre(producto.getNombre()) != null) {
@@ -48,24 +47,25 @@ public class ProductoService {
     }
 
     public Producto update(int id, ProductoDto productodto) throws NotFound{
-
+        Producto product = new Producto();
         if (productoRepository.findById(id) == null) {
             throw NotFound.builder().message("No existe el producto con ID: " + id).build();
         } else {
+            product.setId(id);
             product.setNombre(productodto.getNombre());
             product.setPrecio(Float.parseFloat(productodto.getPrecio()));
             return productoRepository.save(product);
         }
 
     }
-    String msj = "Eliminado";
+
     public void delete(int id) throws NotFound {
 
         if (productoRepository.findById(id)==null){
            throw NotFound.builder().message("No existe el producto con ID: " + id).build();
        }else{
            productoRepository.deleteById(id);
-           
+
        }
     }
 

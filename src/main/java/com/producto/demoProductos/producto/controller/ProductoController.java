@@ -2,7 +2,6 @@ package com.producto.demoProductos.producto.controller;
 
 import com.producto.demoProductos.producto.dto.ProductoDto;
 import com.producto.demoProductos.producto.errors.BadRequest;
-import com.producto.demoProductos.producto.errors.NegocioException;
 import com.producto.demoProductos.producto.errors.NotFound;
 import com.producto.demoProductos.producto.model.Producto;
 import com.producto.demoProductos.producto.service.ProductoService;
@@ -18,9 +17,11 @@ public class ProductoController {
 
     @Autowired
     private ProductoService productoService;
+    private Producto producto;
 
     @PostMapping("/add")
-    public Producto add(@RequestBody ProductoDto productodto) throws NegocioException, BadRequest, NotFound
+    @ResponseBody
+    public Producto add(@RequestBody ProductoDto productodto) throws BadRequest
     {
         return productoService.add(productodto);}
 

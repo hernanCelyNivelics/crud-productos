@@ -18,10 +18,10 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
-    Usuario user = new Usuario();
+
 
     public Usuario add(UsuarioDto usuario) throws NegocioException, BadRequest, NotFound {
-
+        Usuario user = new Usuario();
         user.setUsername(usuario.getUsername());
         user.setPassword(bCrypt(usuario.getPassword()));
         if (usuarioRepository.findByUsername(usuario.getUsername()) != null) {
@@ -39,10 +39,11 @@ public class UsuarioService {
     }
 
     public Usuario update(int id, UsuarioDto usuario) throws NotFound {
-
+        Usuario user = new Usuario();
         if (usuarioRepository.findById(id) == null) {
             throw NotFound.builder().message("No existe el usuario con ID: " + id).build();
         } else {
+            user.setId(id);
             user.setUsername(usuario.getUsername());
             user.setPassword(usuario.getPassword());
             return usuarioRepository.save(user);

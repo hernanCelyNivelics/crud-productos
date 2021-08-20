@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 @Builder
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class BadRequest extends Exception{
+public class BadRequest extends RuntimeException{
 
     /**
      *
