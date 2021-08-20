@@ -29,4 +29,16 @@ public class ErrorHandlerController {
 		respuesta.put(MENSAJE_SALIDA_MAP, "El usuario ya existe");
 		return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
 	}
+	@ExceptionHandler(value = {ProductoException.class})
+	protected ResponseEntity<Map<String, Object>> productoException(ProductoException ex, Model model) {
+		Map<String, Object> respuesta = new HashMap<>();
+		respuesta.put(MENSAJE_SALIDA_MAP, "El producto ya fue existe");
+		return new ResponseEntity<>(respuesta, HttpStatus.BAD_REQUEST);
+	}
+	@ExceptionHandler(value = {CreadoException.class})
+	protected ResponseEntity<Map<String, Object>> CreadoException(CreadoException ex, Model model) {
+		Map<String, Object> respuesta = new HashMap<>();
+		respuesta.put(MENSAJE_SALIDA_MAP, "El producto fue creado");
+		return new ResponseEntity<>(respuesta, HttpStatus.CREATED);
+	}
 }
