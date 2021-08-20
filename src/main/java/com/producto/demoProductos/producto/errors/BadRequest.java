@@ -9,7 +9,7 @@ import lombok.EqualsAndHashCode;
 @Builder
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class NegocioException extends Exception{
+public class BadRequest extends Exception{
 
     /**
      *

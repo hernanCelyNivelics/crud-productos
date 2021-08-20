@@ -1,14 +1,15 @@
 package com.producto.demoProductos.producto.controller;
 
 import com.producto.demoProductos.producto.dto.UsuarioDto;
+import com.producto.demoProductos.producto.errors.BadRequest;
 import com.producto.demoProductos.producto.errors.NegocioException;
+import com.producto.demoProductos.producto.errors.NotFound;
 import com.producto.demoProductos.producto.model.Usuario;
 import com.producto.demoProductos.producto.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/usuarios")
@@ -19,7 +20,7 @@ public class UsuarioController {
     private Usuario usuario;
     @PostMapping("/add")
     @ResponseBody
-    public Usuario add(@RequestBody UsuarioDto usuariodto) throws NegocioException
+    public Usuario add(@RequestBody UsuarioDto usuariodto) throws NegocioException, BadRequest, NotFound
     {
         return usuarioService.add(usuariodto);}
 
