@@ -22,7 +22,7 @@ public class ProductoService {
         Producto product = new Producto();
         product.setNombre(producto.getNombre());
         product.setPrecio(Float.parseFloat(producto.getPrecio()));
-        if (productoRepository.findByNombre(producto.getNombre()) != null) {
+        if (productoRepository.findByNombre(producto.getNombre()).isPresent()) {
             throw BadRequest.builder().build();
 
         } else {
