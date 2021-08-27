@@ -1,10 +1,10 @@
-package com.producto.demoProductos.producto.dto;
+package com.producto.demoProductos.producto.domain.dto;
 
-public class AuthenticationResponse {
+public class AuthenticationResponseDto {
 
     private String jwt;
 
-    public AuthenticationResponse(String jwt) {
+    public AuthenticationResponseDto(String jwt) {
         this.jwt = jwt;
     }
 

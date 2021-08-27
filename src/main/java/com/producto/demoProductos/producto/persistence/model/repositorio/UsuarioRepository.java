@@ -1,6 +1,6 @@
-package com.producto.demoProductos.producto.repo;
+package com.producto.demoProductos.producto.persistence.model.repositorio;
 
-import com.producto.demoProductos.producto.model.Usuario;
+import com.producto.demoProductos.producto.persistence.model.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

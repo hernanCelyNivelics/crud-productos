@@ -1,9 +1,9 @@
-package com.producto.demoProductos.producto.controller;
+package com.producto.demoProductos.producto.web.controller;
 
-import com.producto.demoProductos.producto.dto.AuthenticationRequest;
-import com.producto.demoProductos.producto.dto.AuthenticationResponse;
+import com.producto.demoProductos.producto.domain.dto.AuthenticationRequestDto;
+import com.producto.demoProductos.producto.domain.dto.AuthenticationResponseDto;
 import com.producto.demoProductos.producto.security.JWTUtil;
-import com.producto.demoProductos.producto.service.UsuarioDetailsService;
+import com.producto.demoProductos.producto.domain.service.UsuarioDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ public class AuthController {
     private JWTUtil jwtUtil;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> createToken(@RequestBody AuthenticationRequest request) throws Exception {
+    public ResponseEntity<AuthenticationResponseDto> createToken(@RequestBody AuthenticationRequestDto request) throws Exception {
 
         try {
             authenticationManager.authenticate(
@@ -37,7 +37,7 @@ public class AuthController {
             UserDetails userDetails = usuarioDetailsService.loadUserByUsername(request.getUsername());
             String jwt= jwtUtil.GenerateToken(userDetails);
 
-            return new ResponseEntity<>(new AuthenticationResponse(jwt), HttpStatus.OK);
+            return new ResponseEntity<>(new AuthenticationResponseDto(jwt), HttpStatus.OK);
 
         }catch (BadCredentialsException e){
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);

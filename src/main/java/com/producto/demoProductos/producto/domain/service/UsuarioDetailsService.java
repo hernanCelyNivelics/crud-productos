@@ -1,8 +1,4 @@
-package com.producto.demoProductos.producto.service;
-import com.producto.demoProductos.producto.dto.AuthenticationRequest;
-import com.producto.demoProductos.producto.model.Usuario;
-import com.producto.demoProductos.producto.repo.UsuarioRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+package com.producto.demoProductos.producto.domain.service;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;

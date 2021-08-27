@@ -4,8 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.http.HttpStatus;
 
-@AllArgsConstructor
 @Builder
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -13,6 +13,13 @@ import lombok.EqualsAndHashCode;
 public class CreadoException extends Exception{
 
     private static final long serialVersionUID = 1L;
-    public final String message;
-    public final Throwable cause;
+    private HttpStatus status;
+    private String message;
+    private String errors;
+
+    public CreadoException(HttpStatus status, String message, String errors) {
+        this.status = status;
+        this.message = message;
+        this.errors = errors;
+    }
 }
