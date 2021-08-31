@@ -19,13 +19,13 @@ public class Producto {
     @Column(name = "id")
     private int id;
 
-    @NotBlank(message = "El nombre del producto no puede estar vacio")
+    @NotBlank
     @Column(name = "nombre", unique = true)
     private String nombre;
 
 
     @Digits(integer=8, fraction=2)
-    @Positive(message = "El valor ingresado no son numeros")
+    @Positive
     @Column(name = "precio", nullable = false)
     private BigDecimal precio;
 }

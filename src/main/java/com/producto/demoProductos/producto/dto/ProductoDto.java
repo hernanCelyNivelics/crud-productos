@@ -9,6 +9,8 @@ import java.math.BigDecimal;
 @Data
 public class ProductoDto implements Serializable {
 
+
+    private int id;
     @NotBlank
     private String nombreProducto;
 

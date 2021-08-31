@@ -1,6 +1,7 @@
 package com.producto.demoProductos.usuario.service.impl;
 
 import com.producto.demoProductos.exception.NoDataFoundException;
+import com.producto.demoProductos.exception.UsuarioExistException;
 import com.producto.demoProductos.usuario.component.UsuarioConverter;
 import com.producto.demoProductos.usuario.dto.UsuarioDto;
 import com.producto.demoProductos.usuario.repo.UsuarioRepository;
@@ -22,15 +23,18 @@ public class UsuarioServiceImpl implements UsuarioService {
     @Override
     public UsuarioDto add(UsuarioDto usuarioDto) {
         var usuario = usuarioConverter.dtoToModel(usuarioDto);
+        if (usuarioRepository.findByUsername(usuario.getUsername()) != null) {
+            throw new UsuarioExistException("El usuario " + usuario.getUsername() + " ya existe.");
+        }
         return usuarioConverter.modelToDto(usuarioRepository.save(usuario));
     }
 
     @Override
     public UsuarioDto getByNombre(UsuarioDto usuarioDto) {
         var usuario = usuarioConverter.dtoToModel(usuarioDto);
-        var usuarioBuscado=usuarioRepository.findByUsername(usuario.getUsername());
-        if (usuarioBuscado == null){
-            throw new NoDataFoundException("El usuario "+usuarioDto.getUsername()+" no se encontro");
+        var usuarioBuscado = usuarioRepository.findByUsername(usuario.getUsername());
+        if (usuarioBuscado == null) {
+            throw new NoDataFoundException("El usuario " + usuarioDto.getUsername() + " no se encontro");
         }
         return usuarioConverter.modelToDto(usuarioRepository.findByUsername(usuario.getUsername()));
     }
@@ -46,17 +50,30 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public UsuarioDto getById(UsuarioDto usuarioDto) {
-        return usuarioConverter.modelToDto(usuarioRepository.getById(usuarioDto.getId()));
+        var usuario= usuarioRepository.getById(usuarioDto.getId());
+        if (usuario==null){
+           throw new NoDataFoundException("El usuario " + usuarioDto.getId() + " no se encontro");
+        }
+        return usuarioConverter.modelToDto(usuario);
     }
 
     @Override
     public UsuarioDto update(int id, UsuarioDto usuarioDto) {
+
+        if (usuarioRepository.getById(usuarioDto.getId())==null){
+            throw new NoDataFoundException("El usuario con ID:" + usuarioDto.getId() + " no se encontro");
+        }
         var usuario = usuarioConverter.dtoToModel(usuarioDto);
         return usuarioConverter.modelToDto(usuarioRepository.save(usuario));
     }
 
     @Override
     public void delete(int id) {
+    var usuario=usuarioRepository.getById(id);
+        System.out.println(usuario.getId()+usuario.getUsername());
+        if (usuario==null){
+            throw new NoDataFoundException("El usuario con ID: " + id + " no se encontro");
+        }
         usuarioRepository.deleteById(id);
 
     }
