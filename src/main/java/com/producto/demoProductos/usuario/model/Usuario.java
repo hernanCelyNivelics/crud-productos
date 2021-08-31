@@ -1,12 +1,10 @@
-package com.producto.demoProductos.producto.persistence.model;
+package com.producto.demoProductos.usuario.model;
 
 
 import lombok.Data;
-import org.springframework.context.annotation.PropertySource;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -14,6 +12,7 @@ import javax.validation.constraints.Size;
 @Table(name = "usuario")
 @Data
 public class Usuario {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")

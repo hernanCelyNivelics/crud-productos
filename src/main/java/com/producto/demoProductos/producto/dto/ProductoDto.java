@@ -1,22 +1,20 @@
-package com.producto.demoProductos.producto.domain.dto;
+package com.producto.demoProductos.producto.dto;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
 @Data
-@NoArgsConstructor
 public class ProductoDto implements Serializable {
 
     @NotBlank
-    private String nombre;
+    private String nombreProducto;
 
     @Digits(integer=8, fraction=2)
     @Positive
-    private BigDecimal precio;
+    private BigDecimal precioProducto;
 
 
 }

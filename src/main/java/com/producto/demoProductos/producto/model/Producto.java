@@ -1,4 +1,4 @@
-package com.producto.demoProductos.producto.persistence.model;
+package com.producto.demoProductos.producto.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

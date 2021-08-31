@@ -1,18 +1,21 @@
-package com.producto.demoProductos.producto.domain.dto;
+package com.producto.demoProductos.usuario.dto;
 
 import lombok.Data;
 
-import javax.validation.constraints.Min;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Data
 public class UsuarioDto {
 
-    @NotBlank//(message = "El usuario no puede estar vacio")
-    private String username;
+    private int id;
 
     @NotBlank
+    @Email
+    private String username;
+
     @Size(min = 8, max= 30)
+    @NotBlank
     private String password;
 }
