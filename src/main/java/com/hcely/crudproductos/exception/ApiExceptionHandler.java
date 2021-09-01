@@ -95,19 +95,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, response.getStatus());
     }
 
-    @ExceptionHandler(Exception.class)
-    protected ResponseEntity<Object> handleCustomAPIException(Exception ex, HttpStatus status) {
-
-        ErrorMessage response = new ErrorMessage.ErrorMessageBuilder()
-                .status(status)
-                .detail("Algo salio mal")
-                .message(ex.getLocalizedMessage())
-                .error_code("502")
-                .error_code(HttpStatus.BAD_GATEWAY.name())
-                .timeStamp(LocalDateTime.now())
-                .build();
-        return new ResponseEntity<>(response, response.getStatus());
-    }
 
     @ExceptionHandler({NumberFormatException.class})
     protected ResponseEntity<Object> handleNumberFormatException(NumberFormatException ex) {

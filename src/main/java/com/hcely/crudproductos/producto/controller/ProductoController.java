@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -27,7 +28,7 @@ public class ProductoController {
                 Logger.getLogger("ocurrio un error en la validacion");
             }
             return new ResponseEntity<>(productoDto, HttpStatus.OK);
-        }catch (NumberFormatException nf){
+        } catch (NumberFormatException nf) {
             throw new NumberFormatException("El numero ingresado no es un decimal");
         }
     }
@@ -51,4 +52,12 @@ public class ProductoController {
     public void delete(@Valid @PathVariable int id) {
         productoService.delete(id);
     }
+
+    @PostMapping("/importcsv")
+    public ProductoDto uploadSingleCSVFile(@RequestParam("csvfile") MultipartFile csvfile) {
+
+        productoService.importProductos(csvfile);
+        return null;
+    }
+
 }

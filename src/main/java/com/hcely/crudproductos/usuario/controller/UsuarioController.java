@@ -48,4 +48,6 @@ public class UsuarioController {
     public void delete(@Valid @PathVariable int id) {
         usuarioService.delete(id);
     }
+
+
 }
