@@ -1,4 +1,4 @@
-package com.hcely.crudproductos.config.security.dto;
+package com.hcely.crudproductos.auth.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

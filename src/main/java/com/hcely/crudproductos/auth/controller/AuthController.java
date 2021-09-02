@@ -1,8 +1,8 @@
-package com.hcely.crudproductos.config.security.controller;
+package com.hcely.crudproductos.auth.controller;
 
-import com.hcely.crudproductos.config.security.dto.AuthenticationRequest;
-import com.hcely.crudproductos.config.security.dto.AuthenticationResponse;
-import com.hcely.crudproductos.config.security.service.MyUserDetailsService;
+import com.hcely.crudproductos.auth.dto.AuthenticationRequest;
+import com.hcely.crudproductos.auth.dto.AuthenticationResponse;
+import com.hcely.crudproductos.auth.service.MyUserDetailsService;
 import com.hcely.crudproductos.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
 
     @Autowired
@@ -30,7 +30,7 @@ public class AuthController {
     private JWTUtil jwtUtil;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> creatToken(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<AuthenticationResponse> createToken(@RequestBody AuthenticationRequest request) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
             UserDetails userDetails = myUserDetailsService.loadUserByUsername(request.getUsername());
