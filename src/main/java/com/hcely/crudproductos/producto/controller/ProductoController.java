@@ -3,6 +3,7 @@ package com.hcely.crudproductos.producto.controller;
 import com.hcely.crudproductos.producto.dto.ProductoDto;
 import com.hcely.crudproductos.producto.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -54,10 +55,17 @@ public class ProductoController {
     }
 
     @PostMapping("/importcsv")
-    public ProductoDto uploadSingleCSVFile(@RequestParam("csvfile") MultipartFile csvfile) {
-
-        productoService.importProductos(csvfile);
-        return null;
+    public ResponseEntity uploadSingleCSVFile(@RequestParam("csvfile") MultipartFile csvfile) {
+        if (csvfile.isEmpty()) {
+            return new ResponseEntity("Seleccione un archivo valido", HttpStatus.BAD_REQUEST);
+        }
+        try {
+            productoService.importProductos(csvfile);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity("Successfully uploaded - " +
+                csvfile.getOriginalFilename(), new HttpHeaders(), HttpStatus.OK);
     }
 
 }

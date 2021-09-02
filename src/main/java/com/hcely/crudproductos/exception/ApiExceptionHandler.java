@@ -26,8 +26,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     private static final String STATUS = "status";
     private static final String MESSAGE = "message";
 
-    @ExceptionHandler(ApiRequestException.class)
-    public ResponseEntity<Object> handleApiRequestException(ApiRequestException e) {
+
+    @ExceptionHandler({ApiRequestException.class, Exception.class})
+    public ResponseEntity<Object> handleApiRequestException(Exception e) {
         ApiException apiException = new ApiException(e.getMessage(), HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(apiException, HttpStatus.BAD_REQUEST);
     }
@@ -52,8 +53,21 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         body.put(STATUS, HttpStatus.BAD_REQUEST);
         body.put(MESSAGE, ex.getMessage());
 
-        return new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(ProductoExistException.class)
+    public ResponseEntity<Object> handleProductoExistException(
+            ProductoExistException ex) {
+
+        Map<String, Object> body = new LinkedHashMap<>();
+        body.put(TIMESTAMP, LocalDateTime.now());
+        body.put(STATUS, HttpStatus.BAD_REQUEST);
+        body.put(MESSAGE, ex.getMessage());
+
+        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+    }
+
 
     @ExceptionHandler({EntityNotFoundException.class})
     protected ResponseEntity<Object> handleEntityNotFoundException(EntityNotFoundException ex) {
@@ -95,7 +109,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(response, response.getStatus());
     }
 
-
     @ExceptionHandler({NumberFormatException.class})
     protected ResponseEntity<Object> handleNumberFormatException(NumberFormatException ex) {
 
@@ -105,4 +118,5 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         body.put(MESSAGE, ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
+
 }

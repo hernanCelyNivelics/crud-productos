@@ -1,6 +1,7 @@
 package com.hcely.crudproductos.producto.service.impl;
 
 import com.hcely.crudproductos.exception.NoDataFoundException;
+import com.hcely.crudproductos.exception.ProductoExistException;
 import com.hcely.crudproductos.exception.UsuarioExistException;
 import com.hcely.crudproductos.producto.component.ProductoMapper;
 import com.hcely.crudproductos.producto.dto.ProductoDto;
@@ -92,7 +93,14 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     public void saveAllTransactional(List<Producto> productos) {
-        productoRepository.saveAll(productos);
+        for (Producto producto:productos
+             ) {
+            if (productoRepository.findByNombre(producto.getNombre())!=null){
+                throw new ProductoExistException("No se pudieron agregar los productos, ya hay productos creados.");
+            }else{
+                productoRepository.saveAll(productos);
+            }
+        }
     }
 
     @Transactional
@@ -134,6 +142,6 @@ public class ProductoServiceImpl implements ProductoService {
                 return ex.getMessage();
             }
         }
-        return null;
+        return failed;
     }
 }
