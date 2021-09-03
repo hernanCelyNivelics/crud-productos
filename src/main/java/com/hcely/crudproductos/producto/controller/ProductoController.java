@@ -34,7 +34,8 @@ public class ProductoController {
         }
     }
 
-    @GetMapping
+    @GetMapping("/listado")
+    @CrossOrigin("https://www.google.com/")
     public List<ProductoDto> getAll() {
         return productoService.getAll();
     }

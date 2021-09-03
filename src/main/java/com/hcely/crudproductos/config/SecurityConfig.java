@@ -22,6 +22,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtFilterRequest jwtFilterRequest;
 
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable().authorizeRequests()
+                .antMatchers("/**/authenticate").permitAll()
+                .antMatchers("/**/usuarios/search").permitAll()
+                .antMatchers("/**/productos/listado").permitAll()
+                .anyRequest().authenticated();
+        http.addFilterBefore(jwtFilterRequest, UsernamePasswordAuthenticationFilter.class);
+    }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -32,20 +41,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles("USER");
         auth.userDetailsService(myUserDetailsService);
     }
+
     @Override
     @Bean
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.csrf().disable().authorizeRequests()
-                .antMatchers("/**/authenticate").permitAll()
-                .antMatchers("/api/v1/usuarios").authenticated()
-                .antMatchers("/api/v1/productos").authenticated()
-                .anyRequest().authenticated();
-        http.addFilterBefore(jwtFilterRequest, UsernamePasswordAuthenticationFilter.class);
     }
 
 

@@ -2,10 +2,12 @@ package com.hcely.crudproductos.auth.filter;
 
 import com.hcely.crudproductos.auth.service.MyUserDetailsService;
 import com.hcely.crudproductos.util.JWTUtil;
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -28,19 +30,32 @@ public class JwtFilterRequest extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader("Authorization");
 
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer")) {
-            String jwt = authorizationHeader.substring(7);
-            String username = jwtUtil.extractUsername(jwt);
-            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-                UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
-                if (jwtUtil.validaeToken(jwt, userDetails)) {
-                    UsernamePasswordAuthenticationToken authToken =
-                            new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-                    SecurityContextHolder.getContext().setAuthentication(authToken);
+        try {
+            if (authorizationHeader != null && authorizationHeader.startsWith("Bearer")) {
+                String jwt = authorizationHeader.substring(7);
+                String username = jwtUtil.extractUsername(jwt);
+
+                if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    UserDetails userDetails = myUserDetailsService.loadUserByUsername(username);
+
+                    if (jwtUtil.validateToken(jwt, userDetails)) {
+                        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
+                        authToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                        SecurityContextHolder.getContext().setAuthentication(authToken);
+                    }
                 }
             }
-        }
-        filterChain.doFilter(request, response);
-    }
+            filterChain.doFilter(request, response);
+        } catch (ExpiredJwtException e) {
 
+            response.setContentType("application/json");
+            StringBuilder sb = new StringBuilder();
+            sb.append("{ ");
+            sb.append("\"error\": \"No autorizado\" ");
+            sb.append("\"message\": \"token expirado\"");
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write(sb.toString());
+            return;
+        }
+    }
 }

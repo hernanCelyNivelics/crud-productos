@@ -22,8 +22,8 @@ public class JWTUtil {
                 .signWith(SignatureAlgorithm.HS256, KEY).compact();
     }
 
-    public boolean validaeToken(String token, UserDetails userDetails) {
-        return userDetails.getUsername().equals(extractUsername(token)) && isTokenExpired(token);
+    public boolean validateToken(String token, UserDetails userDetails) {
+        return userDetails.getUsername().equals(extractUsername(token)) && !isTokenExpired(token);
     }
 
     public String extractUsername(String token) {
