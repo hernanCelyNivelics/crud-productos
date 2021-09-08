@@ -1,4 +1,4 @@
-package com.hcely.crudproductos.exception;
+package com.hcely.crudproductos.exception.message;
 
 import lombok.Builder;
 import lombok.Data;

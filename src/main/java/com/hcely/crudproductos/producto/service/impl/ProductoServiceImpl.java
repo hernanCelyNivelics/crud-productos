@@ -1,8 +1,7 @@
 package com.hcely.crudproductos.producto.service.impl;
 
-import com.hcely.crudproductos.exception.NoDataFoundException;
-import com.hcely.crudproductos.exception.ProductoExistException;
-import com.hcely.crudproductos.exception.UsuarioExistException;
+import com.hcely.crudproductos.exception.message.NoDataFoundException;
+import com.hcely.crudproductos.exception.message.UsuarioExistException;
 import com.hcely.crudproductos.producto.component.ProductoMapper;
 import com.hcely.crudproductos.producto.dto.ProductoDto;
 import com.hcely.crudproductos.producto.model.Producto;
@@ -53,6 +52,7 @@ public class ProductoServiceImpl implements ProductoService {
         return ProductoMapper.mapper.modelToDto(productoRepository.findByNombre(producto.getNombre()));
     }
 
+
     @Override
     public List<ProductoDto> getAll() {
         var usuarios = productoRepository.findAll();
@@ -66,7 +66,7 @@ public class ProductoServiceImpl implements ProductoService {
     public ProductoDto getById(ProductoDto productoDto) {
         var producto = productoRepository.getById(productoDto.getId());
         if (producto == null) {
-            throw new NoDataFoundException(CAD1 + productoDto.getNombreProducto() + CAD2);
+            throw new NoDataFoundException(CAD1 + productoDto.getId() + CAD2);
         }
         return ProductoMapper.mapper.modelToDto(producto);
     }
@@ -93,13 +93,9 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     public void saveAllTransactional(List<Producto> productos) {
-        for (Producto producto:productos
-             ) {
-            if (productoRepository.findByNombre(producto.getNombre())!=null){
-                throw new ProductoExistException("No se pudieron agregar los productos, ya hay productos creados.");
-            }else{
-                productoRepository.saveAll(productos);
-            }
+        for (Producto producto : productos
+        ) {
+            productoRepository.saveAll(productos);
         }
     }
 
@@ -118,6 +114,10 @@ public class ProductoServiceImpl implements ProductoService {
                 ProductoDto productoDto = new ProductoDto();
                 for (final CSVRecord record : parser) {
                     if (record.get("nombre").isEmpty() || record.get("precio").isEmpty()) {
+                        var cadena = "Error: " + "{nombre: " + record.get("nombre") + " precio: "
+                                + record.get("precio") + " fila: " + record.getRecordNumber() + "}";
+                        failed.add(cadena);
+                    }else if(productoRepository.findByNombre(record.get("nombre"))!=null){
                         var cadena = "Error: " + "{nombre: " + record.get("nombre") + " precio: "
                                 + record.get("precio") + " fila: " + record.getRecordNumber() + "}";
                         failed.add(cadena);

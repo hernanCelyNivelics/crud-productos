@@ -5,8 +5,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class AuthenticationRequest {
+public class AuthenticationResponseDto {
 
-    private String username;
-    private String password;
+    private String jwt;
 }

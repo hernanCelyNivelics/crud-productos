@@ -44,6 +44,10 @@ public class ProductoController {
     public ProductoDto getByNombre(@RequestBody ProductoDto productoDto) {
         return productoService.getByNombre(productoDto);
     }
+    @GetMapping("/search/{id}")
+    public ProductoDto getById(@RequestBody ProductoDto productoDto) {
+        return productoService.getById(productoDto);
+    }
 
     @PutMapping("/{id}")
     public ProductoDto update(@Valid @PathVariable int id, @RequestBody ProductoDto productoDto) {

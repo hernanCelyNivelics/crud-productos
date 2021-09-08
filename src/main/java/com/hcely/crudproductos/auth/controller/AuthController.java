@@ -1,7 +1,7 @@
 package com.hcely.crudproductos.auth.controller;
 
-import com.hcely.crudproductos.auth.dto.AuthenticationRequest;
-import com.hcely.crudproductos.auth.dto.AuthenticationResponse;
+import com.hcely.crudproductos.auth.dto.AuthenticationRequestDto;
+import com.hcely.crudproductos.auth.dto.AuthenticationResponseDto;
 import com.hcely.crudproductos.auth.service.MyUserDetailsService;
 import com.hcely.crudproductos.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,12 +30,12 @@ public class AuthController {
     private JWTUtil jwtUtil;
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> createToken(@RequestBody AuthenticationRequest request) {
+    public ResponseEntity<AuthenticationResponseDto> createToken(@RequestBody AuthenticationRequestDto request) {
         try {
             authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
             UserDetails userDetails = myUserDetailsService.loadUserByUsername(request.getUsername());
             String jwt = jwtUtil.generateToken(userDetails);
-            return new ResponseEntity<>(new AuthenticationResponse(jwt), HttpStatus.OK);
+            return new ResponseEntity<>(new AuthenticationResponseDto(jwt), HttpStatus.OK);
         } catch (BadCredentialsException bd) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }

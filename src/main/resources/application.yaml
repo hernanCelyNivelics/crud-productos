@@ -1,4 +1,5 @@
 spring:
+
   datasource:
     driverClassName: com.mysql.jdbc.Driver
     url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/producto

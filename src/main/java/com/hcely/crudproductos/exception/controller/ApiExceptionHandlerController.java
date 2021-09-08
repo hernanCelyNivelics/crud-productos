@@ -1,5 +1,6 @@
-package com.hcely.crudproductos.exception;
+package com.hcely.crudproductos.exception.controller;
 
+import com.hcely.crudproductos.exception.message.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 @ControllerAdvice
-public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+public class ApiExceptionHandlerController extends ResponseEntityExceptionHandler {
 
 
     private static final String BAD_REQUEST = "verificar la informacion ingresada";
@@ -118,5 +119,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         body.put(MESSAGE, ex.getMessage());
         return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
     }
+
+
 
 }

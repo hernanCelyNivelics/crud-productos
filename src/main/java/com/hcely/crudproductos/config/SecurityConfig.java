@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
@@ -34,12 +34,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+
         auth.inMemoryAuthentication()
                 .withUser("admin")
-                .password(encoder.encode("password"))
+                .password(encoder().encode("password"))
                 .roles("USER");
-        auth.userDetailsService(myUserDetailsService);
+        auth.userDetailsService(myUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
@@ -48,11 +48,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
-
-//
-//    @Bean
-//    public PasswordEncoder encoder() {
-//        return new BCryptPasswordEncoder(11);
-//    }
+    @Bean
+    public PasswordEncoder encoder() {
+        return new BCryptPasswordEncoder(11);
+    }
 
 }

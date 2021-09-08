@@ -34,6 +34,11 @@ public class UsuarioController {
         return usuarioService.getAll();
     }
 
+    @GetMapping("/search/{id}")
+    public UsuarioDto getById(@RequestBody UsuarioDto usuarioDto) {
+        return usuarioService.getById(usuarioDto);
+    }
+
     @GetMapping("/search")
     public UsuarioDto getByNombre(@RequestBody UsuarioDto usuarioDto) {
         return usuarioService.getByNombre(usuarioDto);
