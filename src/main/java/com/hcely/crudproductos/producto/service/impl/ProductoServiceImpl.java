@@ -2,6 +2,8 @@ package com.hcely.crudproductos.producto.service.impl;
 
 import com.hcely.crudproductos.exception.message.NoDataFoundException;
 import com.hcely.crudproductos.exception.message.UsuarioExistException;
+import com.hcely.crudproductos.logs.model.Log;
+import com.hcely.crudproductos.logs.repo.LogRepository;
 import com.hcely.crudproductos.producto.component.ProductoMapper;
 import com.hcely.crudproductos.producto.dto.ProductoDto;
 import com.hcely.crudproductos.producto.model.Producto;
@@ -29,6 +31,13 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Autowired
     private ProductoRepository productoRepository;
+
+    @Autowired
+    private LogRepository logRepository;
+
+    List<Log> failed = new ArrayList();
+
+    Log log ;
 
     private static final String CAD1 = "El producto ";
     private static final String CAD2 = " no se encontro";
@@ -93,16 +102,21 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     public void saveAllTransactional(List<Producto> productos) {
-        for (Producto producto : productos
-        ) {
-            productoRepository.saveAll(productos);
-        }
+
+        productoRepository.saveAll(productos);
+    }
+
+    public void error(String nombre, String precio, long fila) {
+        log = new Log();
+        var cadena = "Error: " + "{nombre: " + nombre + " precio: "
+                + precio + " fila: " + fila + "}";
+        log.setLog_mensaje(cadena);
+        failed.add(log);
     }
 
     @Transactional
     public Object importProductos(MultipartFile productos) {
 
-        List<Object> failed = new ArrayList();
         List<Producto> listProductos = new ArrayList();
         InputStream inputStream = null;
         try {
@@ -114,20 +128,17 @@ public class ProductoServiceImpl implements ProductoService {
                 ProductoDto productoDto = new ProductoDto();
                 for (final CSVRecord record : parser) {
                     if (record.get("nombre").isEmpty() || record.get("precio").isEmpty()) {
-                        var cadena = "Error: " + "{nombre: " + record.get("nombre") + " precio: "
-                                + record.get("precio") + " fila: " + record.getRecordNumber() + "}";
-                        failed.add(cadena);
-                    }else if(productoRepository.findByNombre(record.get("nombre"))!=null){
-                        var cadena = "Error: " + "{nombre: " + record.get("nombre") + " precio: "
-                                + record.get("precio") + " fila: " + record.getRecordNumber() + "}";
-                        failed.add(cadena);
-                    }else{
+                        error(record.get("nombre"), record.get("precio"), record.getRecordNumber());
+                    } else if (productoRepository.findByNombre(record.get("nombre")) != null) {
+                        error(record.get("nombre"), record.get("precio"), record.getRecordNumber());
+                    } else {
                         productoDto.setPrecioProducto(BigDecimal.valueOf(Double.parseDouble(record.get("precio"))));
                         productoDto.setNombreProducto(record.get("nombre"));
                         listProductos.add(ProductoMapper.mapper.dtoToModel(productoDto));
                     }
                 }
                 saveAllTransactional(listProductos);
+                //logRepository.saveAll(failed);
                 System.out.println(failed);
             } finally {
                 parser.close();
@@ -142,6 +153,6 @@ public class ProductoServiceImpl implements ProductoService {
                 return ex.getMessage();
             }
         }
-        return failed;
+        return listProductos;
     }
 }
